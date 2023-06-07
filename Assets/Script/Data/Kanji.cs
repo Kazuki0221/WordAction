@@ -10,7 +10,8 @@ public class Kanji : ScriptableObject
     public int id;
     public string name;
     public Image img;
-    public float damage;
-    public float range;
+    //public float damage;
+    //public float range;
     public List<string> elements;
+    public GameObject skillObject;
 }
