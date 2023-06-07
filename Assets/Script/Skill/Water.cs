@@ -15,7 +15,6 @@ public class Water : KanjiSkill
         base.Update();
         if (Vector3.Distance(transform.position, GetFirstPosition()) >= range)
         {
-            Debug.Log("Destroy");
             Destroy(this.gameObject);
         }
     }
