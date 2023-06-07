@@ -30,7 +30,7 @@ public abstract class KanjiSkill : MonoBehaviour
         return spwanPoint; 
     }
 
-    public abstract void DestroySkill();
+    public virtual void DestroySkill() { }
 
     void OnCollisionEnter(Collision collision)
     {

@@ -15,8 +15,7 @@ MonoBehaviour:
   id: 3
   name: "\u6CE2"
   img: {fileID: 0}
-  damage: 0
-  range: 0
   elements:
   - "\u6C34"
   - "\u76AE"
+  skillObject: {fileID: 6287421901514077664, guid: 23e8972f6d92aa24f923167e2475e2a7, type: 3}

@@ -207,11 +207,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1707654559 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1707654559, guid: ea78f86ef6ed8b044af9cff9a4cc35d7, type: 3}
-  m_PrefabInstance: {fileID: 3513486716563417682}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1910594160
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,9 +453,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3513486716669778862, guid: ea78f86ef6ed8b044af9cff9a4cc35d7, type: 3}
-      propertyPath: skillSpawnPoint
-      value: 
-      objectReference: {fileID: 1707654559}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea78f86ef6ed8b044af9cff9a4cc35d7, type: 3}
