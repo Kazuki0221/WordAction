@@ -15,12 +15,13 @@ public class Player : MonoBehaviour
     Transform skillSpawnPoint;
 
     [SerializeField]
-    List<Kanji> skills = new List<Kanji>();
+    List<Kanji> skills;
 
     bool isGoround = true;
     void Start()
     {
         _rb= GetComponent<Rigidbody>();
+        skills = new List<Kanji>(Home.skills);
     }
 
     void Update()

@@ -260,5 +260,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   jumpPower: 1
-  skills:
-  - {fileID: 11400000, guid: 2a2ec7d57f9730f42b6a31c0e238cc38, type: 2}
+  skillSpawnPoint: {fileID: 1707654559}
+  skills: []
