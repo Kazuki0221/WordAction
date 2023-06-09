@@ -5,19 +5,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField,Header("移動速度")]
     float speed;
-    [SerializeField]
+    [SerializeField,Header("ジャンプ力")]
     float jumpPower;
     Rigidbody _rb;
 
-    [SerializeField]
+    [SerializeField,Header("スキルの生成位置")]
     Transform skillSpawnPoint;
 
-    [SerializeField]
+    [SerializeField,Header("保有スキル")]
     List<Kanji> skills;
 
-    bool isGoround = true;
+    bool isGoround = true; //地面判定用変数        
     void Start()
     {
         _rb= GetComponent<Rigidbody>();
@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        //スキル判別
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             Instantiate(skills[0].skillObject, skillSpawnPoint.position, skills[0].skillObject.transform.rotation);
@@ -46,6 +47,10 @@ public class Player : MonoBehaviour
 
     }
 
+
+    /// <summary>
+    /// 移動関連
+    /// </summary>
     private void FixedUpdate()
     {
         float h = Input.GetAxisRaw("Horizontal");

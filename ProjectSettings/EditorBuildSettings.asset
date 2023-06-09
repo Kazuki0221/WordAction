@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Home.unity
+    guid: 622abb14ea5aebe4f8e1203cc461a8f5
+  - enabled: 1
+    path: Assets/Scenes/KanjiTest.unity
+    guid: b8fb98dfe083c804f95d7d32d3e74174
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

@@ -5,10 +5,10 @@ using UnityEngine;
 public class Wave : KanjiSkill
 {
 
-    [SerializeField]
+    [SerializeField,Header("”­ŽË‘¬“x")]
     float speed;
     Vector3 dir;
-    [SerializeField]
+    [SerializeField,Header("Œø‰Ê”ÍˆÍ")]
     float range;
 
     public override void Update()

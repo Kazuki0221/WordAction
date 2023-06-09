@@ -5,29 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class Home : MonoBehaviour
 {
-    public static List<Kanji> skills = new List<Kanji>();
-    public GameObject[] skillBtn = new GameObject[4];
+    public static List<Kanji> skills = new List<Kanji>(); //使用可能スキル
+    public GameObject[] skillBtn = new GameObject[4];　//スキルスロット
 
     [SerializeField]
-    GameObject itemList;
+    GameObject itemList;　//アイテムリスト表示用
 
     int buttonNum;
 
-    public int ButtonNum 
+    public int ButtonNum  //ボタンの区別用プロパティ
     {
         get { return buttonNum; } 
         protected set { this.buttonNum = value; } 
     }
 
-    private void Start()
-    {
-        itemList.SetActive(false);
-    }
-
     public void UpdateSkill(int number)
     {
         ButtonNum = number;
-        itemList.SetActive(true);
+        itemList.GetComponent<ItemList>().OpenList();
     }
 
     public void IsStart()

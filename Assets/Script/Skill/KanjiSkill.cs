@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class KanjiSkill : MonoBehaviour
 {
     Rigidbody rb;
-    Vector3 spwanPoint;
+    Vector3 spwanPoint; //skillÇÃê∂ê¨à íu
 
     void Awake()
     {

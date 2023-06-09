@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class KanjiDataBaseManager : MonoBehaviour
 {
     [SerializeField]
-    private KanjiDataBase kanjiDataBase;
+    private KanjiDataBase kanjiDataBase;  //漢字データベース
 
     [SerializeField]
     List<InputField> inputFields= new List<InputField>();
@@ -21,6 +22,10 @@ public class KanjiDataBaseManager : MonoBehaviour
         kanjiDataBase.dataBaseList.Add(kanji);
     }
 
+
+    /// <summary>
+    /// 漢字の合成を判別する関数
+    /// </summary>
     public void Combine()
     {
         string result = string.Empty;
@@ -43,6 +48,7 @@ public class KanjiDataBaseManager : MonoBehaviour
 
                 if(checks.All(i => i == true))
                 {
+                    //ItemList.kanjis.Add(kanjiDataBase.dataBaseList[i]);
                     result = kanjiDataBase.dataBaseList[i].name;
                     text.text = result;
                     return;
@@ -51,7 +57,16 @@ public class KanjiDataBaseManager : MonoBehaviour
 
             text.text = "合成失敗";
             return;
-
         }
+    }
+
+    public void ToHome()
+    {
+        SceneManager.LoadScene("Home");
+    }
+
+    public void OpenList()
+    {
+        ItemList.instance.gameObject.SetActive(true);
     }
 }
