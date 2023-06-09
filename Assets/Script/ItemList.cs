@@ -12,10 +12,18 @@ public class ItemList : MonoBehaviour
     [SerializeField]
     GameObject kanjibtn; //漢字ボタン
 
+
+    [SerializeField]
+    GameObject list;
+
+    [SerializeField]
+    GameObject closeButton;
+
     [SerializeField]
     GameObject content; //ボタンを生成する親オブジェクト
 
-    Home homebtn;
+    [SerializeField]
+    Scrollbar scrollVertical = default;
 
     public static bool isUpdate = false;
 
@@ -27,12 +35,46 @@ public class ItemList : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(this.gameObject);
             CreateList();
         }
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    public void Update()
+    {
+        if(list.GetComponent<Image>().color == Color.white)
+        {
+            float val = Input.GetAxisRaw("Mouse ScrollWheel");
+            float sValue = scrollVertical.value;
+
+            if(val > 0)
+            {
+                if(sValue < 1)
+                {
+                    sValue += 0.5f;
+                }
+                else if(sValue >= 1)
+                {
+                    sValue = 1;
+                }
+            }
+            else if(val < 0)
+            {
+                if(sValue > 0)
+                {
+                    sValue -= 0.5f;
+                }
+                else if(sValue <= 0)
+                {
+                    sValue = 0;
+                }
+            }
+
+            scrollVertical.value = sValue;
         }
     }
 
@@ -55,6 +97,9 @@ public class ItemList : MonoBehaviour
         ListActiveOrDisActive(false, Color.clear);
     }
 
+    /// <summary>
+    /// リストを開く処理
+    /// </summary>
     public void OpenList()
     {
 
@@ -80,71 +125,146 @@ public class ItemList : MonoBehaviour
         ListActiveOrDisActive(true, Color.white);
     }
 
+    public void CloseList()
+    {
+        ListActiveOrDisActive(false, Color.clear);
+    }
+
     /// <summary>
     /// セットするスキルの更新
     /// </summary>
     /// <param name="k"></param>
     public void UpdateSkill(Kanji k)
     {
-        homebtn = FindObjectOfType<Home>();
+        var homebtn = FindObjectOfType<Home>();
 
-        //セットされているスキルがないかスロットが最後まで埋まっていない場合
-        if (Home.skills == null || Home.skills.Count < homebtn.ButtonNum + 1)
+        var kanjiDataManager = FindObjectOfType<KanjiDataBaseManager>();
+
+        if(homebtn)
         {
-            if (!Home.skills.Contains(k))
+            //セットされているスキルがないかスロットが最後まで埋まっていない場合
+            if (Home.skills == null || Home.skills.Count < homebtn.ButtonNum + 1)
             {
-                Home.skills.Add(k);
-                homebtn.skillBtn[homebtn.ButtonNum].GetComponentInChildren<Text>().text = k.name;
+                if (!Home.skills.Contains(k))
+                {
+                    Home.skills.Add(k);
+                    homebtn.skillBtn[homebtn.ButtonNum].GetComponentInChildren<Text>().text = k.name;
+                }
+                else
+                {
+                    int index = Home.skills.IndexOf(k);
+                    Home.skills.Add(k);
+
+                    homebtn.skillBtn[homebtn.ButtonNum].GetComponentInChildren<Text>().text = k.name;
+
+                    Home.skills[index] = null;
+                    homebtn.skillBtn[index].GetComponentInChildren<Text>().text = "";
+                }
             }
+            //すべてのスロットが入っている場合
             else
             {
-                int index = Home.skills.IndexOf(k);
-                Home.skills.Add(k);
+                if (!Home.skills.Contains(k))
+                {
+                    Home.skills[homebtn.ButtonNum] = k;
+                    homebtn.skillBtn[homebtn.ButtonNum].GetComponentInChildren<Text>().text = k.name;
+                }
+                else
+                {
+                    int index = Home.skills.IndexOf(k);
 
-                homebtn.skillBtn[homebtn.ButtonNum].GetComponentInChildren<Text>().text = k.name;
+                    var tempSkill = Home.skills[index];
+                    var tempText = homebtn.skillBtn[homebtn.ButtonNum].GetComponentInChildren<Text>().text;
 
-                Home.skills[index] = null;
-                homebtn.skillBtn[index].GetComponentInChildren<Text>().text = "";
+                    Home.skills[index] = Home.skills[homebtn.ButtonNum];
+                    homebtn.skillBtn[index].GetComponentInChildren<Text>().text = tempText;
+
+                    Home.skills[homebtn.ButtonNum] = tempSkill;
+                    homebtn.skillBtn[homebtn.ButtonNum].GetComponentInChildren<Text>().text = tempSkill.name;
+                }
             }
+            ListActiveOrDisActive(false, Color.clear);
         }
-        //すべてのスロットが入っている場合
-        else
+
+        /*
+        if (kanjiDataManager)
         {
-            if(!Home.skills.Contains(k))
+            //セットされているスキルがないかスロットが最後まで埋まっていない場合
+            if (Home.skills == null || Home.skills.Count < kanjiDataManager.ButtonNum + 1)
             {
-                Home.skills[homebtn.ButtonNum] = k;
-                homebtn.skillBtn[homebtn.ButtonNum].GetComponentInChildren<Text>().text = k.name;
+                if (!Home.skills.Contains(k))
+                {
+                    Home.skills.Add(k);
+                    kanjiDataManager.skillBtn[kanjiDataManager.ButtonNum].GetComponentInChildren<Text>().text = k.name;
+                }
+                else
+                {
+                    int index = Home.skills.IndexOf(k);
+                    Home.skills.Add(k);
+
+                    kanjiDataManager.skillBtn[kanjiDataManager.ButtonNum].GetComponentInChildren<Text>().text = k.name;
+
+                    Home.skills[index] = null;
+                    kanjiDataManager.skillBtn[index].GetComponentInChildren<Text>().text = "";
+                }
             }
+            //すべてのスロットが入っている場合
             else
             {
-                int index = Home.skills.IndexOf(k);
+                if (!Home.skills.Contains(k))
+                {
+                    Home.skills[kanjiDataManager.ButtonNum] = k;
+                    kanjiDataManager.skillBtn[kanjiDataManager.ButtonNum].GetComponentInChildren<Text>().text = k.name;
+                }
+                else
+                {
+                    int index = Home.skills.IndexOf(k);
 
-                var tempSkill = Home.skills[index];
-                var tempText = homebtn.skillBtn[homebtn.ButtonNum].GetComponentInChildren<Text>().text;
+                    var tempSkill = Home.skills[index];
+                    var tempText = kanjiDataManager.skillBtn[kanjiDataManager.ButtonNum].GetComponentInChildren<Text>().text;
 
-                Home.skills[index] = Home.skills[homebtn.ButtonNum];
-                homebtn.skillBtn[index].GetComponentInChildren<Text>().text = tempText;
+                    Home.skills[index] = Home.skills[kanjiDataManager.ButtonNum];
+                    kanjiDataManager.skillBtn[index].GetComponentInChildren<Text>().text = tempText;
 
-                Home.skills[homebtn.ButtonNum] = tempSkill;
-                homebtn.skillBtn[homebtn.ButtonNum].GetComponentInChildren<Text>().text = tempSkill.name;
+                    Home.skills[kanjiDataManager.ButtonNum] = tempSkill;
+                    kanjiDataManager.skillBtn[kanjiDataManager.ButtonNum].GetComponentInChildren<Text>().text = tempSkill.name;
+                }
             }
+            ListActiveOrDisActive(false, Color.clear);
         }
+        */
 
-        ListActiveOrDisActive(false, Color.clear);
     }
 
+    /// <summary>
+    /// リストの表示/非表示
+    /// </summary>
+    /// <param name="active"></param>
+    /// <param name="color"></param>
     void ListActiveOrDisActive(bool active, Color color)
     {
-        var listImage = gameObject.GetComponent<Image>();
+        var listImage = list.GetComponent<Image>();
         listImage.color = color;
         listImage.raycastTarget = active;
 
-        int childCount = gameObject.transform.childCount;
-
+        int childCount = list.transform.childCount;
         for (int i = 0; i < childCount; i++)
         {
-            GameObject childObject = gameObject.transform.GetChild(i).gameObject;
-            childObject.SetActive(active);
+            GameObject childObject = list.transform.GetChild(i).gameObject;
+            if (i == 1)
+            {
+                var scrollImage = childObject.GetComponent<Image>();
+                scrollImage.color = color;
+                scrollImage.raycastTarget = active;
+                childObject.transform.GetChild(0).gameObject.SetActive(active);
+                scrollVertical.value = 1;
+            }
+            else
+            {
+                childObject.SetActive(active);
+            }
         }
+
+        closeButton.SetActive(active);
     }
 }
