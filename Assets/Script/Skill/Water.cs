@@ -19,7 +19,7 @@ public class Water : KanjiSkill
         }
     }
 
-    public override void Attack()
+    public override void Action()
     {
         dir = FindObjectOfType<Player>().transform.right;
         dir.y = 0;
@@ -28,8 +28,13 @@ public class Water : KanjiSkill
         GetRigidbody().AddForce(dir * speed, ForceMode.Impulse);
     }
 
-    public override void DestroySkill()
+    public override void OnCollisionEnter(Collision collision)
     {
-        Destroy(this.gameObject);
+        base.OnCollisionEnter(collision);
+        
+        if(collision.gameObject.CompareTag("Fire"))
+        {
+            Destroy(collision.gameObject);
+        }
     }
 }

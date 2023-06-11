@@ -20,13 +20,26 @@ public class Wave : KanjiSkill
         }
     }
 
-    public override void Attack()
+    public override void Action()
     {
         dir = FindObjectOfType<Player>().transform.right;
         dir.y = 0;
         dir.z = 0;
 
         transform.position += new Vector3(dir.x, 0, 0) * speed * Time.deltaTime;
+    }
+
+    public override void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Wall"))
+        {
+            Destroy(this.gameObject);
+        }
+
+        if (collision.gameObject.CompareTag("Fire"))
+        {
+            Destroy(collision.gameObject);
+        }
     }
 
 }

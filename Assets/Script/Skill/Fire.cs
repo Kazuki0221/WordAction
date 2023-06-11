@@ -19,12 +19,24 @@ public class Fire : KanjiSkill
         }
     }
 
-    public override void Attack()
+    public override void Action()
     {
         dir = FindObjectOfType<Player>().transform.right;
         dir.y = 0;
         dir.z = 0;
 
-        transform.position += new Vector3(dir.x, 0, 0) * speed * Time.deltaTime;
+        //transform.position += new Vector3(dir.x, 0, 0) * speed * Time.deltaTime;
+        GetRigidbody().AddForce(dir * speed, ForceMode.Impulse);
+
+    }
+
+    public override void OnCollisionEnter(Collision collision)
+    {
+        base.OnCollisionEnter(collision);
+
+        if (collision.gameObject.CompareTag("Plant"))
+        {
+            Destroy(collision.gameObject);
+        }
     }
 }

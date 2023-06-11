@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5552012391280423466}
   - component: {fileID: 5552012391280423469}
   - component: {fileID: 5552012391280423468}
-  - component: {fileID: 5552012391280423464}
   - component: {fileID: 5552012391280423465}
+  - component: {fileID: -1841487484245071334}
   m_Layer: 6
   m_Name: Fire
   m_TagString: Untagged
@@ -99,20 +99,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5552012391280423464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5552012391280423471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c3628519cb12894ab7505ed415b7ec5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0.5
-  range: 3
 --- !u!54 &5552012391280423465
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -129,3 +115,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 124
   m_CollisionDetection: 0
+--- !u!114 &-1841487484245071334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5552012391280423471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 215aca91663e6b249bb6de737792eed7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.5
+  range: 3
