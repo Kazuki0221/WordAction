@@ -2,9 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField, Header("HP")]
+    float hp = 5f;
+
+    public float HP
+    {
+        get { return hp; }
+        protected set { hp = value; }
+    }
     [SerializeField,Header("移動速度")]
     float speed;
     [SerializeField,Header("ジャンプ力")]
@@ -21,26 +30,26 @@ public class Player : MonoBehaviour
     void Start()
     {
         _rb= GetComponent<Rigidbody>();
-        skills = new List<Kanji>(Home.skills);
+        //skills = new List<Kanji>(Home.skills);
     }
 
     void Update()
     {
         //スキル判別
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if(Input.GetKeyDown(KeyCode.Alpha1) && skills[0] != null)
         {
             Instantiate(skills[0].skillObject, skillSpawnPoint.position, skills[0].skillObject.transform.rotation);
         }
-        else if(Input.GetKeyDown(KeyCode.Alpha2))
+        else if(Input.GetKeyDown(KeyCode.Alpha2) && skills[1] != null)
         {
             Instantiate(skills[1].skillObject, skillSpawnPoint.position, skills[1].skillObject.transform.rotation);
 
         }
-        else if(Input.GetKeyDown(KeyCode.Alpha3))
+        else if(Input.GetKeyDown(KeyCode.Alpha3) && skills[2] != null)
         {
             Instantiate(skills[2].skillObject, skillSpawnPoint.position, skills[2].skillObject.transform.rotation);
         }
-        else if(Input.GetKeyDown(KeyCode.Alpha4))
+        else if(Input.GetKeyDown(KeyCode.Alpha4) && skills[3] != null)
         {
             Instantiate(skills[3].skillObject, skillSpawnPoint.position, skills[3].skillObject.transform.rotation);
         }
@@ -78,10 +87,38 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         isGoround = true;
+
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            if(HP > 0)
+            {
+                HP -= 0.5f;
+            }
+        }
     }
 
     private void OnCollisionExit(Collision collision)
     {
         isGoround = false;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.GetComponent<KanjiItem>())
+        {
+            var item = other.gameObject.GetComponent<KanjiItem>();
+            if (Input.GetButtonDown("Fire3"))
+            {
+                ItemList.kanjis.Add(item.kanji);
+
+                if (!Home.skills.Contains(item.kanji) && Home.skills.Count < 4)
+                {
+                    Home.skills.Add(item.kanji);
+                    skills.Add(item.kanji);
+                }
+
+                item.GetItem();
+            }
+        }
     }
 }
