@@ -411,7 +411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3513486716669778003, guid: ea78f86ef6ed8b044af9cff9a4cc35d7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.0346565
+      value: -0.98
       objectReference: {fileID: 0}
     - target: {fileID: 3513486716669778003, guid: ea78f86ef6ed8b044af9cff9a4cc35d7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -453,5 +453,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3513486716669778862, guid: ea78f86ef6ed8b044af9cff9a4cc35d7, type: 3}
+      propertyPath: skills.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3513486716669778862, guid: ea78f86ef6ed8b044af9cff9a4cc35d7, type: 3}
+      propertyPath: skills.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4dac6b13d8af99d4dae1a6d240e83e10, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea78f86ef6ed8b044af9cff9a4cc35d7, type: 3}
