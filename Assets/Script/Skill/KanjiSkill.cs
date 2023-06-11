@@ -7,7 +7,7 @@ public abstract class KanjiSkill : MonoBehaviour
     Rigidbody rb;
     Vector3 spwanPoint; //skillÇÃê∂ê¨à íu
 
-    void Awake()
+    public virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
         spwanPoint = transform.position;
@@ -15,10 +15,10 @@ public abstract class KanjiSkill : MonoBehaviour
 
     public virtual void Update()
     {
-        Attack();
+        Action();
     }
 
-    public abstract void Attack();
+    public abstract void Action();
 
     public Rigidbody GetRigidbody()
     {
@@ -30,13 +30,11 @@ public abstract class KanjiSkill : MonoBehaviour
         return spwanPoint; 
     }
 
-    public virtual void DestroySkill() { }
-
-    void OnCollisionEnter(Collision collision)
+    public virtual void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Enemy"))
         {
-            DestroySkill();
+            Destroy(this.gameObject);
         }
 
         if(collision.gameObject.CompareTag("Wall"))
