@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Fire
   - Plant
+  - Goal
   layers:
   - Default
   - TransparentFX
