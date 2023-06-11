@@ -35,55 +35,51 @@ public class Player : MonoBehaviour
     KanjiItem item;
     bool isGetSkill = false;
 
-    bool isGoround = true; //地面判定用変数        
-    void Start()
+    public bool GetSkill
+    {
+        get { return isGetSkill; }
+        protected set { isGetSkill = value; }
+    }
+
+    bool isGoround = true; //地面判定用変数
+
+    StageManager stageManager;
+    void Awake()
     {
         _rb= GetComponent<Rigidbody>();
-        //skills = new List<Kanji>(Home.skills);
+        stageManager = FindObjectOfType<StageManager>();
+        skills = new List<Kanji>(Home.skills);
     }
 
     void Update()
     {
-        Move();
-
-        if(isGetSkill)
+        if (!stageManager.isClear)
         {
-            if (Input.GetButtonDown("Fire3"))
+            Move();
+
+            if (isGetSkill)
             {
-                ItemList.kanjis.Add(item.kanji);
-
-                if (!Home.skills.Contains(item.kanji) && Home.skills.Count < 4)
+                if (Input.GetButtonDown("Fire3"))
                 {
-                    Home.skills.Add(item.kanji);
-                    skills.Add(item.kanji);
+                    ItemList.kanjis.Add(item.kanji);
+                    Debug.Log(ItemList.kanjis.Count);
+                    if (!Home.skills.Contains(item.kanji) && Home.skills.Count < 4)
+                    {
+                        //Home.skills.Add(item.kanji);
+                        skills.Add(item.kanji);
+                        Home.skills = skills;
+                    }
+                    stageManager.SkillView();
+                    StartCoroutine(item.GetItem());
+                    isGetSkill = false;
+                    ItemList.isUpdate = true;
                 }
-
-                StartCoroutine(item.GetItem());
-                isGetSkill = false;
             }
-        }
 
-        //スキル判別
-        if(Input.GetKeyDown(KeyCode.Alpha1) && skills[0] != null)
-        {
-            Instantiate(skills[0].skillObject, skillSpawnPoint.position, skills[0].skillObject.transform.rotation);
-        }
-        else if(Input.GetKeyDown(KeyCode.Alpha2) && skills[1] != null)
-        {
-            Instantiate(skills[1].skillObject, skillSpawnPoint.position, skills[1].skillObject.transform.rotation);
-
-        }
-        else if(Input.GetKeyDown(KeyCode.Alpha3) && skills[2] != null)
-        {
-            Instantiate(skills[2].skillObject, skillSpawnPoint.position, skills[2].skillObject.transform.rotation);
-        }
-        else if(Input.GetKeyDown(KeyCode.Alpha4) && skills[3] != null)
-        {
-            Instantiate(skills[3].skillObject, skillSpawnPoint.position, skills[3].skillObject.transform.rotation);
+            UseSkill();
         }
 
     }
-
 
     /// <summary>
     /// 移動関連
@@ -112,6 +108,31 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// スキル判別
+    /// </summary>
+    void UseSkill()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) && skills[0] != null)
+        {
+            Instantiate(skills[0].skillObject, skillSpawnPoint.position, skills[0].skillObject.transform.rotation);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && skills[1] != null)
+        {
+            Instantiate(skills[1].skillObject, skillSpawnPoint.position, skills[1].skillObject.transform.rotation);
+
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && skills[2] != null)
+        {
+            Instantiate(skills[2].skillObject, skillSpawnPoint.position, skills[2].skillObject.transform.rotation);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4) && skills[3] != null)
+        {
+            Instantiate(skills[3].skillObject, skillSpawnPoint.position, skills[3].skillObject.transform.rotation);
+        }
+
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         isGoround = true;
@@ -125,9 +146,25 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Fire"))
+        {
+            HP -= 0.1f;
+        }
+    }
+
     private void OnCollisionExit(Collision collision)
     {
         isGoround = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Goal"))
+        {
+            stageManager.isClear = true;
+        }
     }
 
     private void OnTriggerStay(Collider other)

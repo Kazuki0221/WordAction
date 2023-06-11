@@ -234,7 +234,7 @@ public class ItemList : MonoBehaviour
 
         if (kanjiDataManager != null)
         {
-            if(kanjiDataManager.ButtonNum > 0 && kanjiDataManager.ButtonNum < kanjiDataManager.kanjibuttons.Count - 1)
+            if(kanjiDataManager.ButtonNum >= 0 && kanjiDataManager.ButtonNum < kanjiDataManager.kanjibuttons.Count - 1)
             {
                 Destroy(kanjiDataManager.addMarkList[kanjiDataManager.ButtonNum]);
                 kanjiDataManager.addMarkList.RemoveAt(kanjiDataManager.ButtonNum);

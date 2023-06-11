@@ -70,11 +70,16 @@ public class KanjiDataBaseManager : MonoBehaviour
                     ItemList.kanjis.Add(kanjiDataBase.dataBaseList[i]);
                     result = kanjiDataBase.dataBaseList[i].name;
                     text.text = result;
+                    ItemList.isUpdate = true;
+
+                    DestroySlot();             
                     return;
                 }
             }
 
             text.text = "çáê¨é∏îs";
+
+            DestroySlot();
             return;
         }
 
@@ -133,5 +138,30 @@ public class KanjiDataBaseManager : MonoBehaviour
             }
            
         }
+    }
+
+    void DestroySlot()
+    {
+        var buttonCount = kanjibuttons.Count;
+        for (int k = 0; k < buttonCount; k++)
+        {
+            Destroy(kanjibuttons[k]);
+            kanjibuttons.RemoveAt(k);
+        }
+
+        var combineCount = combineList.Count;
+        for (int c = 0; c < combineCount; c++)
+        {
+            Destroy(combineList[c]);
+            combineList.RemoveAt(c);
+        }
+
+        var addMarkCount = addMarkList.Count;
+        for (int a = 0; a < addMarkCount; a++)
+        {
+            Destroy(addMarkList[a]);
+            addMarkList.RemoveAt(a);
+        }
+
     }
 }

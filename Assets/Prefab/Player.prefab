@@ -93,7 +93,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6fc6c60a5643b0d4db562c1461eebe30, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -194,7 +194,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6fc6c60a5643b0d4db562c1461eebe30, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -262,4 +262,5 @@ MonoBehaviour:
   speed: 5
   jumpPower: 3
   skillSpawnPoint: {fileID: 1707654559}
-  skills: []
+  skills:
+  - {fileID: 11400000, guid: 2a2ec7d57f9730f42b6a31c0e238cc38, type: 2}

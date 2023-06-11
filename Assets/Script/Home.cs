@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Home : MonoBehaviour
@@ -9,9 +10,19 @@ public class Home : MonoBehaviour
     public GameObject[] skillBtn = new GameObject[4];　//スキルスロット
 
     [SerializeField]
-    GameObject itemList;　//アイテムリスト表示用
+    static GameObject itemList;　//アイテムリスト表示用
 
     int buttonNum;
+
+    public void Start()
+    {
+        itemList = FindObjectOfType<ItemList>().gameObject;
+
+        for(int i = 0; i < skills.Count; i++)
+        {
+            skillBtn[i].GetComponentInChildren<Text>().text = skills[i].name;
+        }
+    }
 
     public int ButtonNum  //ボタンの区別用プロパティ
     {
@@ -32,7 +43,7 @@ public class Home : MonoBehaviour
 
     public void Combine()
     {
-        SceneManager.LoadScene("KanjiTest");
+        SceneManager.LoadScene("CombineSkill");
     }
 
 }

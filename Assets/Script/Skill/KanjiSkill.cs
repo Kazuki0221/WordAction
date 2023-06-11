@@ -35,6 +35,7 @@ public abstract class KanjiSkill : MonoBehaviour
         if(collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(this.gameObject);
+            Destroy(collision.gameObject);
         }
 
         if(collision.gameObject.CompareTag("Wall"))

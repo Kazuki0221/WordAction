@@ -8,9 +8,12 @@ public class KanjiItem : MonoBehaviour
     [SerializeField]
     public Kanji kanji;
 
-    public void GetItem()
+    public IEnumerator GetItem()
     {
-        Debug.Log($"Get {kanji.name}");
+        FindObjectOfType<StageManager>().message.text = $"Get {kanji.name}";
         Destroy(gameObject);
+        yield return new WaitForSeconds(2);
+        FindObjectOfType<StageManager>().message.text = "";
+        yield return null;
     }
 }
