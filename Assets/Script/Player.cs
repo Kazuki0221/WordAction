@@ -26,6 +26,15 @@ public class Player : MonoBehaviour
     [SerializeField,Header("保有スキル")]
     List<Kanji> skills;
 
+    public List<Kanji> Skills
+    {
+        get { return skills; }
+        protected set { skills = value; }
+    }
+
+    KanjiItem item;
+    bool isGetSkill = false;
+
     bool isGoround = true; //地面判定用変数        
     void Start()
     {
@@ -35,6 +44,25 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        Move();
+
+        if(isGetSkill)
+        {
+            if (Input.GetButtonDown("Fire3"))
+            {
+                ItemList.kanjis.Add(item.kanji);
+
+                if (!Home.skills.Contains(item.kanji) && Home.skills.Count < 4)
+                {
+                    Home.skills.Add(item.kanji);
+                    skills.Add(item.kanji);
+                }
+
+                StartCoroutine(item.GetItem());
+                isGetSkill = false;
+            }
+        }
+
         //スキル判別
         if(Input.GetKeyDown(KeyCode.Alpha1) && skills[0] != null)
         {
@@ -60,7 +88,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 移動関連
     /// </summary>
-    private void FixedUpdate()
+    private void Move()
     {
         float h = Input.GetAxisRaw("Horizontal");
 
@@ -106,19 +134,8 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.GetComponent<KanjiItem>())
         {
-            var item = other.gameObject.GetComponent<KanjiItem>();
-            if (Input.GetButtonDown("Fire3"))
-            {
-                ItemList.kanjis.Add(item.kanji);
-
-                if (!Home.skills.Contains(item.kanji) && Home.skills.Count < 4)
-                {
-                    Home.skills.Add(item.kanji);
-                    skills.Add(item.kanji);
-                }
-
-                item.GetItem();
-            }
+            item = other.gameObject.GetComponent<KanjiItem>();
+            isGetSkill= true;
         }
     }
 }
