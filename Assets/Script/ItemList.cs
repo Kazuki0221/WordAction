@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class ItemList : MonoBehaviour
     public static ItemList instance; //シングルトン用変数
 
     [SerializeField]
-    public  List<Kanji> kanjis = new List<Kanji>();　//手持ちの漢字リスト
+    public static List<Kanji> kanjis = new List<Kanji>();　//手持ちの漢字リスト
     [SerializeField]
     GameObject kanjibtn; //漢字ボタン
 
@@ -83,12 +84,16 @@ public class ItemList : MonoBehaviour
     /// </summary>
     void CreateList()
     {
+        var removeButton = Instantiate(kanjibtn);
+        removeButton.transform.parent = content.transform;
+        removeButton.GetComponent<Button>().onClick.AddListener(() => RemoveSkill());
+        removeButton.GetComponentInChildren<Text>().text = "はずす";
         if(kanjis != null)
         {
             foreach (var k in kanjis)
             {
                 var btn = Instantiate(kanjibtn);
-                btn.transform.parent = content.gameObject.transform;
+                btn.transform.parent = content.transform;
                 btn.GetComponent<Button>().onClick.AddListener(() => UpdateSkill(k));
                 btn.GetComponentInChildren<Text>().text = k.name;
             }
@@ -106,7 +111,7 @@ public class ItemList : MonoBehaviour
         if (kanjis != null && isUpdate)
         {
             int btnCount = content.transform.childCount;
-            for (int i = 0; i < btnCount; i++)
+            for (int i = 1; i < btnCount; i++)
             {
                 GameObject childObject = content.transform.GetChild(i).gameObject;
                 Destroy(childObject);
@@ -138,7 +143,6 @@ public class ItemList : MonoBehaviour
     {
         var homebtn = FindObjectOfType<Home>();
 
-        var kanjiDataManager = FindObjectOfType<KanjiDataBaseManager>();
 
         if(homebtn)
         {
@@ -186,54 +190,70 @@ public class ItemList : MonoBehaviour
             ListActiveOrDisActive(false, Color.clear);
         }
 
-        /*
+        var kanjiDataManager = FindObjectOfType<KanjiDataBaseManager>();
+
         if (kanjiDataManager)
         {
-            //セットされているスキルがないかスロットが最後まで埋まっていない場合
-            if (Home.skills == null || Home.skills.Count < kanjiDataManager.ButtonNum + 1)
+            if(kanjiDataManager.combineList.Count < 4)
             {
-                if (!Home.skills.Contains(k))
+                kanjiDataManager.CreateSlot(k);
+                if(kanjiDataManager.combineList.Count == 4)
                 {
-                    Home.skills.Add(k);
-                    kanjiDataManager.skillBtn[kanjiDataManager.ButtonNum].GetComponentInChildren<Text>().text = k.name;
-                }
-                else
-                {
-                    int index = Home.skills.IndexOf(k);
-                    Home.skills.Add(k);
-
-                    kanjiDataManager.skillBtn[kanjiDataManager.ButtonNum].GetComponentInChildren<Text>().text = k.name;
-
-                    Home.skills[index] = null;
-                    kanjiDataManager.skillBtn[index].GetComponentInChildren<Text>().text = "";
+                    ListActiveOrDisActive(false, Color.clear);
                 }
             }
-            //すべてのスロットが入っている場合
+            else if(kanjiDataManager.isClick)
+            {
+                kanjiDataManager.combineList[kanjiDataManager.ButtonNum] = k;
+                kanjiDataManager.kanjibuttons[kanjiDataManager.ButtonNum].GetComponentInChildren<Text>().text = k.name;
+
+
+                ListActiveOrDisActive(false, Color.clear);
+
+                kanjiDataManager.isClick = false;
+            }
             else
             {
-                if (!Home.skills.Contains(k))
-                {
-                    Home.skills[kanjiDataManager.ButtonNum] = k;
-                    kanjiDataManager.skillBtn[kanjiDataManager.ButtonNum].GetComponentInChildren<Text>().text = k.name;
-                }
-                else
-                {
-                    int index = Home.skills.IndexOf(k);
-
-                    var tempSkill = Home.skills[index];
-                    var tempText = kanjiDataManager.skillBtn[kanjiDataManager.ButtonNum].GetComponentInChildren<Text>().text;
-
-                    Home.skills[index] = Home.skills[kanjiDataManager.ButtonNum];
-                    kanjiDataManager.skillBtn[index].GetComponentInChildren<Text>().text = tempText;
-
-                    Home.skills[kanjiDataManager.ButtonNum] = tempSkill;
-                    kanjiDataManager.skillBtn[kanjiDataManager.ButtonNum].GetComponentInChildren<Text>().text = tempSkill.name;
-                }
+                Debug.Log("これ以上選択できません");
             }
-            ListActiveOrDisActive(false, Color.clear);
-        }
-        */
 
+        }
+    }
+
+    public void RemoveSkill()
+    {
+        var homebtn = FindObjectOfType<Home>();
+
+        if (homebtn != null)
+        {
+            Home.skills[homebtn.ButtonNum] = null;
+            homebtn.skillBtn[homebtn.ButtonNum].GetComponentInChildren<Text>().text = "";
+        }
+
+        var kanjiDataManager = FindObjectOfType<KanjiDataBaseManager>();
+
+        if (kanjiDataManager != null)
+        {
+            if(kanjiDataManager.ButtonNum > 0 && kanjiDataManager.ButtonNum < kanjiDataManager.kanjibuttons.Count - 1)
+            {
+                Destroy(kanjiDataManager.addMarkList[kanjiDataManager.ButtonNum]);
+                kanjiDataManager.addMarkList.RemoveAt(kanjiDataManager.ButtonNum);
+                Destroy(kanjiDataManager.kanjibuttons[kanjiDataManager.ButtonNum]);
+                kanjiDataManager.kanjibuttons.RemoveAt(kanjiDataManager.ButtonNum);
+                kanjiDataManager.combineList.RemoveAt(kanjiDataManager.ButtonNum);
+                kanjiDataManager.ResetButtonNumber();
+
+            }
+            else
+            {
+                Destroy(kanjiDataManager.addMarkList[kanjiDataManager.ButtonNum - 1]);
+                kanjiDataManager.addMarkList.RemoveAt(kanjiDataManager.ButtonNum - 1);
+                Destroy(kanjiDataManager.kanjibuttons[kanjiDataManager.ButtonNum]);
+                kanjiDataManager.combineList.RemoveAt(kanjiDataManager.ButtonNum);
+            }
+        }
+
+        ListActiveOrDisActive(false, Color.clear);
     }
 
     /// <summary>
