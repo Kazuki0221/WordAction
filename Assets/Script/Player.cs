@@ -62,10 +62,8 @@ public class Player : MonoBehaviour
                 if (Input.GetButtonDown("Fire3"))
                 {
                     ItemList.kanjis.Add(item.kanji);
-                    Debug.Log(ItemList.kanjis.Count);
                     if (!Home.skills.Contains(item.kanji) && Home.skills.Count < 4)
                     {
-                        //Home.skills.Add(item.kanji);
                         skills.Add(item.kanji);
                         Home.skills = skills;
                     }

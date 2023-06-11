@@ -9,7 +9,7 @@ public class ItemList : MonoBehaviour
     public static ItemList instance; //シングルトン用変数
 
     [SerializeField]
-    public static List<Kanji> kanjis = new List<Kanji>();　//手持ちの漢字リスト
+    public static  List<Kanji> kanjis = new List<Kanji>();　//手持ちの漢字リスト
     [SerializeField]
     GameObject kanjibtn; //漢字ボタン
 

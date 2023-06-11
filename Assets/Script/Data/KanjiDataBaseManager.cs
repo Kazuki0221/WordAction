@@ -142,26 +142,15 @@ public class KanjiDataBaseManager : MonoBehaviour
 
     void DestroySlot()
     {
-        var buttonCount = kanjibuttons.Count;
-        for (int k = 0; k < buttonCount; k++)
-        {
-            Destroy(kanjibuttons[k]);
-            kanjibuttons.RemoveAt(k);
-        }
+        var childCount = buttonList.transform.childCount;
 
-        var combineCount = combineList.Count;
-        for (int c = 0; c < combineCount; c++)
+        for(int i = 0; i < childCount; i++)
         {
-            Destroy(combineList[c]);
-            combineList.RemoveAt(c);
+            var ui = buttonList.transform.GetChild(i);
+            Destroy(ui.gameObject);
         }
-
-        var addMarkCount = addMarkList.Count;
-        for (int a = 0; a < addMarkCount; a++)
-        {
-            Destroy(addMarkList[a]);
-            addMarkList.RemoveAt(a);
-        }
-
+        kanjibuttons.Clear();
+        addMarkList.Clear();
+        combineList.Clear();
     }
 }
