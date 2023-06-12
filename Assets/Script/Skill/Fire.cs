@@ -25,9 +25,7 @@ public class Fire : KanjiSkill
         dir.y = 0;
         dir.z = 0;
 
-        //transform.position += new Vector3(dir.x, 0, 0) * speed * Time.deltaTime;
         GetRigidbody().AddForce(dir * speed, ForceMode.Impulse);
-
     }
 
     public override void OnCollisionEnter(Collision collision)

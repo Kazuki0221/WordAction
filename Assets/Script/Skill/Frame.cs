@@ -11,7 +11,9 @@ public class Frame : KanjiSkill
     float range;
 
     bool isStrech = true;
-    Transform tempTransform;
+
+    [SerializeField]
+    float time = 3f;
 
     public override void Action()
     {
@@ -19,30 +21,48 @@ public class Frame : KanjiSkill
         dir.y = 0f;
         dir.z = 0f;
 
+        Transform tempTransform = gameObject.transform;
         if(transform.localScale.x < range && isStrech)
         {
             transform.localScale += dir * speed * Time.deltaTime;
             tempTransform.localScale = transform.localScale;
-
         }
         else if(transform.localScale.x >= range && isStrech) 
         {
             transform.localScale = new Vector3(range, 1, 1);
+            tempTransform.localScale = transform.localScale;
+            isStrech = false;
         }
         else if(!isStrech)
         {
             transform.localScale = tempTransform.localScale;
+
+            if (time > 0)
+            {
+                time -= Time.deltaTime;
+            }
+            else if (time <= 0)
+            {
+                Destroy(gameObject);
+            }
+
         }
     }
 
     public override void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Hit");
+            Destroy(collision.gameObject);
+        }
+
+        if (collision.gameObject.CompareTag("Wall"))
         {
             isStrech = false;
         }
 
-        if (collision.gameObject.CompareTag("PLant"))
+        if (collision.gameObject.CompareTag("Plant"))
         {
             Destroy(collision.gameObject);
         }

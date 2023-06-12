@@ -1238,7 +1238,6 @@ MonoBehaviour:
   - {fileID: 1120344570}
   - {fileID: 53073327}
   - {fileID: 547641605}
-  itemList: {fileID: 1119940371}
 --- !u!4 &1048464666
 Transform:
   m_ObjectHideFlags: 0
@@ -1334,11 +1333,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084824731}
   m_CullTransparentMesh: 1
---- !u!1 &1119940371 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6377372595552756730, guid: 0b7913dd08762d643ae62a580338cb5c, type: 3}
-  m_PrefabInstance: {fileID: 6377372596605504745}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1120344570
 GameObject:
   m_ObjectHideFlags: 0
@@ -1804,6 +1798,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6377372595512272727, guid: 0b7913dd08762d643ae62a580338cb5c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377372595512272727, guid: 0b7913dd08762d643ae62a580338cb5c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377372595512272727, guid: 0b7913dd08762d643ae62a580338cb5c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6377372595552756730, guid: 0b7913dd08762d643ae62a580338cb5c, type: 3}
       propertyPath: m_Name
       value: KanjiList
