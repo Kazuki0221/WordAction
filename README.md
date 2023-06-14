@@ -4,6 +4,7 @@
 <br> VisualStudio2022 
 # 概要
 文字の力を駆使してステージをクリアしていく、ステージクリア型3Dアクションゲームです。
+プレイ人数：1人
 
 # 企画書
 　https://drive.google.com/file/d/1gHKJtz34SJWrBrrs8zA38yXpbMMmdDr7/view?usp=sharing
